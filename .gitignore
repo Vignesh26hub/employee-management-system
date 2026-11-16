@@ -1,0 +1,41 @@
+# Compiled class files
+target/
+*.class
+
+# Log files
+*.log
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Virtual Machine crash logs
+hs_err_pid*
+replay_pid*
+
+# IDE Specific Files
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.settings/
+.project
+.classpath
+
+# Environment and sensitive credential files
+.env
+*.local
+application-local.properties
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Embedded tools
+tools/

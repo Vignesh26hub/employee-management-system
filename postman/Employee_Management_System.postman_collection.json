@@ -1,0 +1,215 @@
+{
+  "info": {
+    "_postman_id": "c6204481-9b7e-4ee2-bb8a-e4905f88bf89",
+    "name": "Employee Management System API",
+    "description": "Production-grade REST API collection for Employee Management System built with Spring Boot 3, Java 21, Spring Data JPA, and MySQL.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api/v1/employees",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Create Employee (201 Created)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"department\": \"Engineering\",\n  \"designation\": \"Software Engineer\",\n  \"salary\": 85000.0\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}",
+          "host": ["{{baseUrl}}"]
+        },
+        "description": "Creates a new employee record. Requires unique email and valid fields."
+      },
+      "response": []
+    },
+    {
+      "name": "2. Create Employee - Invalid Data (400 Bad Request)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"\",\n  \"lastName\": \"\",\n  \"email\": \"not-a-valid-email\",\n  \"department\": \"\",\n  \"designation\": \"\",\n  \"salary\": -100.0\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}",
+          "host": ["{{baseUrl}}"]
+        },
+        "description": "Demonstrates Bean Validation triggering 400 Bad Request with field error map."
+      },
+      "response": []
+    },
+    {
+      "name": "3. Create Employee - Duplicate Email (409 Conflict)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Another\",\n  \"lastName\": \"User\",\n  \"email\": \"john.doe@example.com\",\n  \"department\": \"Marketing\",\n  \"designation\": \"Analyst\",\n  \"salary\": 65000.0\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}",
+          "host": ["{{baseUrl}}"]
+        },
+        "description": "Attempts to register an employee with an existing email, resulting in 409 Conflict."
+      },
+      "response": []
+    },
+    {
+      "name": "4. Get All Employees (200 OK)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}",
+          "host": ["{{baseUrl}}"]
+        },
+        "description": "Retrieves the complete list of all employees in the system."
+      },
+      "response": []
+    },
+    {
+      "name": "5. Get Employee By ID (200 OK)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["1"]
+        },
+        "description": "Retrieves details of an existing employee by ID."
+      },
+      "response": []
+    },
+    {
+      "name": "6. Get Employee By ID - Not Found (404 Not Found)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/9999",
+          "host": ["{{baseUrl}}"],
+          "path": ["9999"]
+        },
+        "description": "Attempts to retrieve a non-existing employee ID, returning 404 Not Found."
+      },
+      "response": []
+    },
+    {
+      "name": "7. Update Employee (200 OK)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"department\": \"Engineering\",\n  \"designation\": \"Senior Software Engineer\",\n  \"salary\": 95000.0\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["1"]
+        },
+        "description": "Updates details of an existing employee by ID."
+      },
+      "response": []
+    },
+    {
+      "name": "8. Search Employee By Name (200 OK)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/search/name?query=John",
+          "host": ["{{baseUrl}}"],
+          "path": ["search", "name"],
+          "query": [
+            {
+              "key": "query",
+              "value": "John"
+            }
+          ]
+        },
+        "description": "Performs case-insensitive partial match search on first name or last name."
+      },
+      "response": []
+    },
+    {
+      "name": "9. Search Employee By Department (200 OK)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/search/department?query=Engineering",
+          "host": ["{{baseUrl}}"],
+          "path": ["search", "department"],
+          "query": [
+            {
+              "key": "query",
+              "value": "Engineering"
+            }
+          ]
+        },
+        "description": "Performs case-insensitive search by department name."
+      },
+      "response": []
+    },
+    {
+      "name": "10. Delete Employee (204 No Content)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["1"]
+        },
+        "description": "Deletes an employee by ID. Returns HTTP 204 No Content upon success."
+      },
+      "response": []
+    },
+    {
+      "name": "11. Delete Employee - Not Found (404 Not Found)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/9999",
+          "host": ["{{baseUrl}}"],
+          "path": ["9999"]
+        },
+        "description": "Attempts to delete a non-existing employee ID, returning 404 Not Found."
+      },
+      "response": []
+    }
+  ]
+}
